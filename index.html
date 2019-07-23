@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Js Online</title>
+  <link rel="stylesheet" href="./css/normalize.css">
+  <link rel="stylesheet" href="./css/editor/codemirror.css">
+  <link rel="stylesheet" href="./css/editor/hopscotch.css">
+  <link rel="stylesheet" href="./css/editor/simplescrollbars.css">
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+  <div class="big-wrap" id="big-wrap">
+    <div class="wrap">
+      <textarea id="code1">
+function findSequence(goal) {
+  function find(start, history) {
+    if (start == goal)
+      return history;
+    else if (start > goal)
+      return null;
+    else
+      return find(start + 5, "(" + history + " + 5)") ||
+              find(start * 3, "(" + history + " * 3)");
+  }
+  return find(1, "1");
+}
+      </textarea>
+    </div>
+
+    <div class="wrap">
+      <textarea id="code2">
+      function findSequence(goal) {
+        function find(start, history) {
+          if (start == goal)
+            return history;
+          else if (start > goal)
+            return null;
+          else
+            return find(start + 5, "(" + history + " + 5)") ||
+                    find(start * 3, "(" + history + " * 3)");
+        }
+        return find(1, "1");
+      }
+            </textarea>
+    </div>
+
+    <div class="wrap">
+      <textarea id="code3">
+      function findSequence(goal) {
+        function find(start, history) {
+          if (start == goal)
+            return history;
+          else if (start > goal)
+            return null;
+          else
+            return find(start + 5, "(" + history + " + 5)") ||
+                    find(start * 3, "(" + history + " * 3)");
+        }
+        return find(1, "1");
+      }
+            </textarea>
+    </div>
+
+    <div class="wrap">
+      <iframe class="iframe"></iframe>
+    </div>
+  </div>
+
+  <script src="./js/editor/codemirror.js"></script>
+  <script src="./js/editor/javascript.js"></script>
+  <script src="./js/editor/simplescrollbars.js"></script>
+  <script src="./js/editor/active-line.js"></script>
+  <script src="./js/index.js"></script>
+</body>
+</html>

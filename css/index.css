@@ -1,12 +1,66 @@
 body {
-  overflow: hidden;
+  overflow: hidden
 }
+/* tab 栏 */
+.tab-wrap {
+  display: flex;
+  width: 100%;
+  background: #004052;
+  color: #969696;
+  height: 30px;
+  line-height: 30px;
+  position: relative
+}
+.tab-item {
+  background: #004052;
+  box-sizing: border-box;
+  padding: 0 10px;
+  min-width: 100px;
+  border-right: 1px solid #003847;
+  border-left: 1px solid #003847;
+  cursor: pointer
+}
+.tab-active {
+  background: #322931;
+  border: none;
+  color: #f1f1f1
+}
+.full-screen {
+  position: absolute;
+  right: 10px;
+  color: #f1f1f1;
+  cursor: pointer;
+}
+.full-screen:hover {
+  color: #fefefe;
+}
+/* 编辑、预览窗口 */
 .big-wrap {
   display: flex;
-  flex-wrap: wrap;
+}
+.editor,
+.output {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.wrap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.wrap:nth-child(1) {
+  visibility: visible;
+}
+.wrap:nth-child(2) {
+  visibility: hidden;
+}
+.wrap:nth-child(3) {
+  visibility: hidden;
 }
 .iframe {
   width: 100%;
   height: 100%;
-  border: none;
+  border: none
 }

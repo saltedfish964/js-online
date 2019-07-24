@@ -9,32 +9,60 @@
   <link rel="stylesheet" href="./css/editor/codemirror.css">
   <link rel="stylesheet" href="./css/editor/hopscotch.css">
   <link rel="stylesheet" href="./css/editor/simplescrollbars.css">
+  <link rel="stylesheet" href="./css/editor/dialog.css">
+  <link rel="stylesheet" href="./css/editor/foldgutter.css">
   <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
+  <!-- tab 栏 -->
+  <div class="tab-wrap">
+    <div class="tab-item tab-active">html</div>
+    <div class="tab-item">css</div>
+    <div class="tab-item">js</div>
+    <div class="full-screen" id="full-screen">全屏</div>
+  </div>
+
   <div class="big-wrap" id="big-wrap">
-    <div class="wrap">
-      <textarea id="html-textarea"></textarea>
+    <!-- 编辑窗口 -->
+    <div class="editor" id="editor">
+      <div class="wrap">
+        <textarea id="html-textarea"></textarea>
+      </div>
+
+      <div class="wrap">
+        <textarea id="css-textarea"></textarea>
+      </div>
+
+      <div class="wrap">
+        <textarea id="js-textarea"></textarea>
+      </div>
     </div>
 
-    <div class="wrap">
-      <textarea id="css-textarea"></textarea>
-    </div>
-
-    <div class="wrap">
-      <textarea id="js-textarea"></textarea>
-    </div>
-
-    <div class="wrap">
-      <iframe class="iframe"></iframe>
+    <!-- 预览窗口 -->
+    <div class="output">
+      <div class="wrap">
+        <iframe id="iframe" class="iframe"></iframe>
+      </div>
     </div>
   </div>
 
+  <script src="./js/lodash.min.js"></script>
   <script src="./js/editor/codemirror.js"></script>
+  <script src="./js/editor/searchcursor.js"></script>
+  <script src="./js/editor/search.js"></script>
+  <script src="./js/editor/dialog.js"></script>
+  <script src="./js/editor/matchbrackets.js"></script>
+  <script src="./js/editor/closebrackets.js"></script>
+  <script src="./js/editor/comment.js"></script>
+  <script src="./js/editor/hardwrap.js"></script>
+  <script src="./js/editor/foldcode.js"></script>
+  <script src="./js/editor/brace-fold.js"></script>
+  <script src="./js/editor/xml-fold.js"></script>
+  <script src="./js/editor/closetag.js"></script>
+  <script src="./js/editor/sublime.js"></script>
   <script src="./js/editor/javascript.js"></script>
   <script src="./js/editor/css.js"></script>
   <script src="./js/editor/xml.js"></script>
-  <script src="./js/editor/htmlmixed.js"></script>
   <script src="./js/editor/simplescrollbars.js"></script>
   <script src="./js/editor/active-line.js"></script>
   <script src="./js/valueStr.js"></script>

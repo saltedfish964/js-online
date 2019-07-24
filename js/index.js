@@ -1,6 +1,11 @@
 function jsOnline () {
   this.bigWrap = document.getElementById('big-wrap');
-  this.wrapList = document.getElementsByClassName('wrap');
+
+  this.tabItemList = document.getElementsByClassName('tab-item');
+
+  this.iframe = document.getElementById('iframe');
+
+  this.editorWrapList = document.querySelectorAll('.editor > .wrap');
 
   this.htmlEditor;
   this.cssEditor;
@@ -11,13 +16,8 @@ jsOnline.prototype.initWindowSize = function () {
   let windowHeight = document.documentElement.clientHeight;
   let windowWidth = document.documentElement.clientWidth;
 
-  this.bigWrap.style.height = windowHeight + 'px';
+  this.bigWrap.style.height = windowHeight - 30 + 'px';
   this.bigWrap.style.width = windowWidth + 'px';
-
-  for (let i = 0; i < this.wrapList.length; i++) {
-    this.wrapList[i].style.height = windowHeight / 2 + 'px';
-    this.wrapList[i].style.width = windowWidth / 2 + 'px';
-  }
 }
 
 jsOnline.prototype.listenWindowResize = function () {
@@ -26,13 +26,8 @@ jsOnline.prototype.listenWindowResize = function () {
     let windowHeight = document.documentElement.clientHeight;
     let windowWidth = document.documentElement.clientWidth;
 
-    that.bigWrap.style.height = windowHeight + 'px';
+    that.bigWrap.style.height = windowHeight - 30 + 'px';
     that.bigWrap.style.width = windowWidth + 'px';
-
-    for (let i = 0; i < that.wrapList.length; i++) {
-      that.wrapList[i].style.height = windowHeight / 2 + 'px';
-      that.wrapList[i].style.width = windowWidth / 2 + 'px';
-    }
   }
 }
 
@@ -41,25 +36,16 @@ jsOnline.prototype.initEditors = function () {
   let cssTextarea = document.getElementById('css-textarea');
   let jsTextarea = document.getElementById('js-textarea');
 
-  let mixedMode = {
-    name: "htmlmixed",
-    scriptTypes: [{
-      matches: /\/x-handlebars-template|\/x-mustache/i,
-      mode: null
-    },
-    {
-      matches: /(text|application)\/(x-)?vb(a|script)/i,
-      mode: "vbscript"
-    }]
-  };
-
   this.htmlEditor = CodeMirror.fromTextArea(htmlTextarea, {
     lineNumbers: true,
     styleActiveLine: true,
     matchBrackets: true,
     theme: 'hopscotch',
     scrollbarStyle: 'simple',
-    mode: mixedMode,
+    mode: 'text/html',
+    keyMap: "sublime",
+    tabSize: 2,
+    autoCloseTags: true,
   });
 
   this.cssEditor = CodeMirror.fromTextArea(cssTextarea, {
@@ -69,6 +55,9 @@ jsOnline.prototype.initEditors = function () {
     theme: 'hopscotch',
     scrollbarStyle: 'simple',
     mode: 'css',
+    keyMap: "sublime",
+    tabSize: 2,
+    autoCloseBrackets : true,
   });
 
   this.jsEditor = CodeMirror.fromTextArea(jsTextarea, {
@@ -77,7 +66,10 @@ jsOnline.prototype.initEditors = function () {
     matchBrackets: true,
     theme: 'hopscotch',
     scrollbarStyle: 'simple',
-    mode: 'javascript',
+    mode: 'text/javascript',
+    keyMap: "sublime",
+    tabSize: 2,
+    autoCloseBrackets: true,
   });
 
   this.htmlEditor.setSize('100%', '100%');
@@ -89,10 +81,85 @@ jsOnline.prototype.initEditors = function () {
   this.jsEditor.setValue(defaultJsText);
 }
 
+jsOnline.prototype.switchTab = function () {
+  let that = this;
+  let activeIndex = 0;
+
+  for (let i = 0; i < that.tabItemList.length; i++) {
+    that.tabItemList[i].onclick = function () {
+      if (activeIndex !== i) {
+        that.tabItemList[activeIndex].classList.remove('tab-active');
+        that.tabItemList[i].classList.add('tab-active');
+
+        that.editorWrapList[activeIndex].style.visibility = 'hidden';
+        that.editorWrapList[i].style.visibility = 'visible';
+        activeIndex = i;
+      }
+    }
+  }
+}
+
+jsOnline.prototype.renderIframeContent = function () {
+  let htmlText = this.htmlEditor.getValue();
+  let cssText = this.cssEditor.getValue();
+  let jsText = this.jsEditor.getValue();
+  let iframeWindowObj = this.iframe.contentWindow;
+
+  let inputStyleEle = iframeWindowObj.document.getElementById('input-style');
+  let inputScriptEle = iframeWindowObj.document.getElementById('input-script');
+
+  let headEle = iframeWindowObj.document.querySelector('head');
+  let bodyEle = iframeWindowObj.document.querySelector('body');
+
+  if (String(inputStyleEle) !== 'null' && String(inputScriptEle) !== 'null') {
+    headEle.removeChild(inputStyleEle);
+    bodyEle.removeChild(inputScriptEle);
+  }
+
+  let styleEle = iframeWindowObj.document.createElement('style');
+  let scriptEle = iframeWindowObj.document.createElement('script');
+
+  styleEle.id = 'input-style';
+  scriptEle.id = 'input-script';
+
+  styleEle.innerHTML = cssText;
+  scriptEle.innerHTML = jsText;
+
+  headEle.appendChild(styleEle);
+  bodyEle.innerHTML = htmlText;
+  bodyEle.appendChild(scriptEle);
+}
+
+jsOnline.prototype.editorOnChange = function () {
+  let that = this;
+  let throttleRenderIframeContent = _.throttle(function () {
+    that.renderIframeContent();
+  }, 2000);
+
+  this.htmlEditor.on('change', throttleRenderIframeContent);
+
+  this.cssEditor.on('change', throttleRenderIframeContent);
+
+  this.jsEditor.on('change', throttleRenderIframeContent);
+}
+
+jsOnline.prototype.fullSscreen = function () {
+  let fullScreenEle = document.getElementById('full-screen');
+  let editorEle = document.getElementById('editor');
+
+  fullScreenEle.onclick = function () {
+    editorEle.style.display = editorEle.style.display !== 'none' ? 'none' : 'block';
+  }
+}
+
 jsOnline.prototype.init = function () {
   this.initWindowSize();
   this.listenWindowResize();
   this.initEditors();
+  this.switchTab();
+  this.renderIframeContent();
+  this.editorOnChange();
+  this.fullSscreen();
 }
 
 window.onload = function () {

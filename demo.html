@@ -7,16 +7,19 @@
   <title>Document</title>
 </head>
 <body>
-  <input type="text" id="input">
   <div id="content"></div>
+  <button id="add">+1</button>
 
   <script>
     let divEle = document.getElementById('content');
-    let bodyEle = document.querySelector('body');
-    let inputEle = document.getElementById('input');
+    let buttonEle = document.getElementById('add');
 
-    inputEle.onkeyup = function () {
-      bodyEle.innerText = inputEle.value;
+    buttonEle.onclick = function () {
+      let div = document.createElement('div');
+
+      div.innerHTML = '加一';
+
+      divEle.appendChild(div);
     }
   </script>
 </body>

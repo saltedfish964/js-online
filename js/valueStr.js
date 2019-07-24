@@ -17,5 +17,5 @@ const defaultCssText = `body {
 }`;
 
 const defaultJsText = `document.getElementById('my-button').onclick = function () {
-  alert('Hi!');
+  console.log('Hi!');
 }`;

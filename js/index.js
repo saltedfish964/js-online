@@ -1,3 +1,11 @@
+function addConsoleText (msg) {
+  let divEle = document.createElement('div');
+  let consoleContentEle = document.getElementById('console-content');
+  divEle.innerHTML = msg;
+  consoleContentEle.appendChild(divEle);
+  consoleContentEle.scrollTop = consoleContentEle.scrollHeight;
+}
+
 function jsOnline () {
   this.bigWrap = document.getElementById('big-wrap');
 
@@ -28,6 +36,10 @@ jsOnline.prototype.listenWindowResize = function () {
 
     that.bigWrap.style.height = windowHeight - 30 + 'px';
     that.bigWrap.style.width = windowWidth + 'px';
+
+    let jsWrapHeight = windowHeight - 230 + 'px';
+
+    that.jsEditor.setSize('100%', jsWrapHeight);
   }
 }
 
@@ -35,6 +47,8 @@ jsOnline.prototype.initEditors = function () {
   let htmlTextarea = document.getElementById('html-textarea');
   let cssTextarea = document.getElementById('css-textarea');
   let jsTextarea = document.getElementById('js-textarea');
+
+  let jsWrapHeight = parseInt(this.bigWrap.style.height) - 200 + 'px';
 
   this.htmlEditor = CodeMirror.fromTextArea(htmlTextarea, {
     lineNumbers: true,
@@ -74,7 +88,7 @@ jsOnline.prototype.initEditors = function () {
 
   this.htmlEditor.setSize('100%', '100%');
   this.cssEditor.setSize('100%', '100%');
-  this.jsEditor.setSize('100%', '100%');
+  this.jsEditor.setSize('100%', jsWrapHeight);
 
   this.htmlEditor.setValue(defaultHtmlText);
   this.cssEditor.setValue(defaultCssText);
@@ -152,6 +166,15 @@ jsOnline.prototype.fullSscreen = function () {
   }
 }
 
+jsOnline.prototype.cleanConsole = function () {
+  let cleanBtn = document.getElementById('clean-btn');
+  let consoleContentEle = document.getElementById('console-content');
+
+  cleanBtn.onclick = function () {
+    consoleContentEle.innerHTML = '';
+  }
+}
+
 jsOnline.prototype.init = function () {
   this.initWindowSize();
   this.listenWindowResize();
@@ -160,6 +183,7 @@ jsOnline.prototype.init = function () {
   this.renderIframeContent();
   this.editorOnChange();
   this.fullSscreen();
+  this.cleanConsole();
 }
 
 window.onload = function () {

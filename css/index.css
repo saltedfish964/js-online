@@ -64,3 +64,47 @@ body {
   height: 100%;
   border: none
 }
+/* 控制台 */
+.console {
+  height: 200px;
+  width: 100%;
+  background: #322931;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.console-head {
+  height: 30px;
+  box-sizing: border-box;
+  border-top: 1px solid #2b2b4a;
+  position: relative;
+}
+.console-clean {
+  border: 1px solid #eeeeee;
+  color: #eeeeee;
+  display: inline-block;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.console-clean:hover {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.console-content {
+  height: 170px;
+  color: #b58900;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.console-content div {
+  width: 100%;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border-bottom: 1px dashed #b58900;
+  word-wrap: break-word;
+  word-break: normal;
+}

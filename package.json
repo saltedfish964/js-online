@@ -1,0 +1,20 @@
+{
+  "name": "js-online",
+  "version": "1.0.0",
+  "description": "javascript online editor",
+  "main": "index.js",
+  "scripts": {
+    "push": "bash deploy.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/didadi599/js-online.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/didadi599/js-online/issues"
+  },
+  "homepage": "https://github.com/didadi599/js-online#readme"
+}

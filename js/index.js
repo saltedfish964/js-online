@@ -137,7 +137,7 @@ jsOnline.prototype.renderIframeContent = function () {
   scriptEle.id = 'input-script';
 
   styleEle.innerHTML = cssText;
-  scriptEle.innerHTML = jsText;
+  scriptEle.innerHTML = `(function () {${jsText}})()`;
 
   headEle.appendChild(styleEle);
   bodyEle.innerHTML = htmlText;
